@@ -1,0 +1,52 @@
+<head>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link href="fonts/Average.css" rel='stylesheet' type='text/css'>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="iframe">
+
+	<h1>Theory of Operation</h1>
+	<h3>H-Bridge Circuit</h3>
+	<p/>
+	The H-Bridge provies a simple function. It allows the output to the motor to be reversiable so that the motor can spin in the opposite direction. It also allows enough current to drive the motor. The circuit consists of two TIP31C, two TIP42C, 4 resistors, and 2 diodes for each H-Bridge. This DNA robot required two H-Bridges, one for each motor. The H-Bridge takes two inputs, D0 and D1. Providing a HIGH voltage to D0 will move the motor in one direction and providing HIGH to D1 will result in the motor going in the opposite direction. The Digital output from the arduino provides 3.3V so the H-Bridge allows the motors to recieve a 5V current. Go to the schematic for the H-Bridge to see how it is wired.
+	<p/>
+	
+	<h3>Robot Structure </h3>
+	<p/>
+	The robot is structured so that the two motors is attached under the breadboard. The arduino board is mounted on top of the breadboard for easy wiring. 
+	<p/>
+	
+	<h3>Programming Theory</h3>
+	When a code is uploaded to an Arduino board, it is stored in the built-in memory and runs when the board is powered. To program the Arduino board, the Arduino software is used to program and upload the the code to the board when connected with the USB cable. 
+	<p/>
+	The first step in coding the program is to setup the inputs and outputs of the board.
+	<p/>
+	Example:
+	<br>
+	void setup() { <br>
+	  for (int i=2; i<10; i++) {<br>
+	  pinMode(i, OUTPUT);<br>
+	  }<br>
+	  pinMode(14, OUTPUT);<br>
+	}
+	<p>
+	The "void setup()" function is where you initialize variables and pin modes which is run only once after each powerup or reset of the Arduino board.
+	<p>
+	A "for loop" is used to loop the code within for a specific number of times. The variable "i" is incremented with each cycle until the variable reaches the specified condition. We utilize this variable to control the pins output with the pinMode(i, OUTPUT) method, where the parameter variable "i" is an integer that corresponds to the pin on the Arduino board. The pins can also be configured to be inputs by replacing "OUTPUT" with "INPUT" to the pinMode parameters to look like "pinMode(i, INPUT)".
+	<p>
+	delay(10) function is used to provide a pause in the operation for 10 milliseconds. (The 10 can be replaced with different values)
+	<p>
+	digitalWrite(i, LOW) is used to provide a LOW output to the pin "i".
+	<br>
+	digitalWrite(i, HIGH) is used to provide a HIGH output to the pin "i".
+	<br>
+	<p>
+	For the DNA robot code, the DNA sequence is stored in a character array and a for loop will cycle through the indexes of the array and compare the character. If the character is an A, a forward movement is provided, if it is T, a backwards movement is provided, if it is a G, a left movement is provided and for C, a right movement is provided. For a forward movement, both motors move forward, for a backwards movement, both motors goes backwards, for a left movement the right motor will move forward only resulting in the robot to go left, and for the right movement, the left motor moves forward to move the robot to the right. 
+</div>
+	
+	
+</body>

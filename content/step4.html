@@ -1,0 +1,160 @@
+<head>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link href="fonts/Average.css" rel='stylesheet' type='text/css'>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="iframe">
+
+	<h1> Coding </h1>
+	<h3> Manual Input</h3>
+	</div>
+	<div id="iframe">
+	<p/>
+	
+	For manual DNA input:
+	Pins 2-5 are set to be outputs. The DNA sequence is stored in a character array. A for loop is used to access each individual character and the characters are checked. If the value is A, pins 2 and 5 are set to HIGH to provide a forward movmement in both the motors. If the value is T, pins 3 and 4 are sent a HIGH to provide a backwards movement to the motors. If the character is G, only pin 5 is sent a HIGH to make the right motor turn forward causing the robot to go left. If the character is C, pin 2 is provided a HIGH to make the left motor move forward which results in the robot moving the right. After each character check, there is a delay to keep the motors running and then a low code is run which will change all the outputs to LOW.
+	<p>
+	For bluetooth DNA input:
+	In the code provided, to run the code for bluetooth, replace manualDna(); in the the void loop to be bt();
+	Serial ports are setup by putting the Serial.begin(9600); code. 
+	The code for the bluetooth version is similar to the manual DNA input version. The main difference is that bluetooth input is obtained and then converted into a character array and then the code is identical to the manual DNA input. 
+
+	<p>
+	
+	Various DNA sequences used in this lab were the Human Chromosome 1: <p>
+	GATCAATGAGGTGGACACCAGAGGCGGGGACTTGTAAATAACACTGGGCTGTAGGAGTGATGGGGTTC<br>
+	ACCTCTAATTCTAAGATGGCTAGATAATGCATCTTTCAGGGTTGTGCTTCTATCTAGAAGGTAGAGCT<br>
+	GTGGTCGTTCAATAAAAGTCCTCAAGAGGTTGGTTAATACGCATGTTTAATAGTACAGTATGGT
+	
+	<p>
+	Chromosome 2: <p>
+	AAGCTTAAGCAATTTGGAGAGCCCTCTTTTGGAAAAAGAACACCAAATTAGAAAGTGGGGCTTGGAGG<br>
+	GAGCACAGCAAATGAAGGGCCCTAAAGCTTAAGCCTTATGAGCACCACTGTAATTCTGCTTTTTGGGA<br>
+	AACAAGCAAGTAGAACAGTGATGACAATAAAATGTAGTGTGGGCTGATGAGAGATCAGGAGAGT
+	<p>
+	Chromosome X: <p>
+	GGTTTCACCATGTTGGCCAGGCTGGCCTCGAACTCCTGACCTCAGGTGATCCGCCTGCCTCAGCCTCCT<br>
+	AAAGTGCTGGGATTACAGGCGTGAGCCACCACACCCGGCCCCAGATCCCTGTCTTGAGACATAACCTAC<br>
+	AAGGTGATAGTGTTAAGAGGTGGAGCCCTTTAAGACGTGATGAGGTCATGAGGGTGGGGCCT
+	
+	<a href="Arduino Code/DNA_robot.ino"> DNA robot code </a>
+	<br>
+	<a href="video/1.mp4">[Demo] Chromosome 1</a><br/>
+	<a href="video/2.mp4">[Demo] Chromosome 2</a><br/>
+	<a href="video/3.mp4">[Demo] Chromosome X</a><br/>
+	
+	</div>
+	CODE: 
+	<pre>
+	#include <SoftwareSerial.h>
+	SoftwareSerial mySerial(10, 11);
+	String readString;
+	void setup() {
+	  //set digital pin 2-6 to be outputs
+	  for (int i=2; i<6; i++) {
+		pinMode(i, OUTPUT);
+	  }
+	  //enabling serial ports for bluetooth addon
+	  Serial.begin(9600); 
+	  mySerial.begin(9600);
+	  
+	}
+
+	void loop(){
+	   manualDna();
+	}
+	void bt() {
+	  while (mySerial.available()) {
+		delay(10);  //small delay to allow input buffer to fill
+
+		char c = mySerial.read();  //gets one byte from serial buffer
+		if (c == ',') {
+		  break;
+		}  //breaks out of capture loop to print readstring
+		readString += c; 
+	  } //makes the string readString  
+
+	  if (readString.length() >0) {
+		Serial.println(readString); //prints string to serial port out
+		stuff(readString);
+		readString=""; //clears variable for new input
+	  }
+	}
+
+	void stuff(String input) {
+	  char dna[input.length()]; //create character array for dna sequence
+	  input.toCharArray(dna, input.length());  
+	  //filling array with the characters from the String recieved from bluetooth input
+
+	  for (int i=1; i<=sizeof(dna); i++) {
+		if (dna[i] == 'A'){
+		  Serial.println("A");      //forward
+		  motor(2);
+		  motor(5);
+		} else if(dna[i] == 'T') {
+		  Serial.println("T");//backward
+		  motor(3);
+		  motor(4);
+		} else if(dna[i] == 'G') {
+		  Serial.println("G");
+		  //left
+		  motor(5);
+		} else if(dna[i] == 'C') {
+		  Serial.println("C");
+		  //right
+		  motor(2);
+		} else {
+		  
+		}
+		delay(50); //delay between each character
+		low();
+	  }
+		delay(1000); //delay after each completion of dna sequence
+	}
+
+
+	void motor(int pin) {
+	  digitalWrite(pin, HIGH);
+	}
+	void manualDna() {
+	  char dna[] = "GGTTTCACCATGTTGGCCAGGCTGGCCTCGAACTCC"; 
+	  //manually placed dna  sequence (this is a small portion of the DNA sequence used
+	  for (int i=0; i<sizeof(dna); i++) {
+		if (dna[i] == 'A'){
+		  //forward
+		  motor(2);
+		  motor(5);
+		  Serial.println("forward");
+		} else if(dna[i] == 'T') {
+		  //backward
+		  motor(3);
+		  motor(4);
+		} else if(dna[i] == 'G') {
+		  //left
+		  motor(5);
+		} else if(dna[i] == 'C') {
+		  //right
+		  motor(2);
+		} else {
+		  
+		}
+		delay(50);
+		low();
+	  }
+	  delay(1000);
+	}
+
+	void low() {
+	//turn off all pins
+	  for (int i=2; i<6; i++) {
+		digitalWrite(i, LOW);
+	  }
+	}
+
+	</pre>
+	
+</body>

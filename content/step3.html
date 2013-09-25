@@ -1,0 +1,59 @@
+<head>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link href="fonts/Average.css" rel='stylesheet' type='text/css'>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="iframe">
+	<h1> Wiring </h1>
+	1. Arrange the TIP31's and TIP42's along with the Arduino UNO as shown below on the breadboard. 
+	<p/>
+	<br>
+	<img src="images/step3/1.jpg" width="500"/>
+	<p/>
+	2. Then ground pin 3 of each TIP31.
+	<br>
+	<img src="images/step3/2.jpg" width="500"/>
+	<p/>
+	3. Connect pin 3 of each TIP42 to +5V.
+	<br>
+	<img src="images/step3/3.jpg" width="500"/>
+	<br>
+	4. Connect pin 2 and pin 3 from the arduino digital I/O ti pin 1 of both the first set of TIP31 with a 2k ohm resistor. <br>
+	<img src="images/step3/4.jpg" width="500"/>
+	<p/>
+	5. Connect pin 2 of each TIP31 to pin 1 of each corresponding TIP42 with a 2k ohm resistor.
+	<br>
+	<img src="images/step3/5.jpg" width="500"/>
+	<p/>
+	6. Do the same to the other H-Bridge (follow steps 2 - 5). <br>
+	Also connect the ground and +5V to the breadboard
+	
+	<br>
+	<img src="images/step3/6.jpg" width="500"/>
+	<p/>
+	7. Connect diode to pin 2 of the TIP42 aiming the black strip of the diode to the TIP31 diagonal in the H-Bridge. Do the same for the other TIP42 so that it connects to the pin 2 of the TIP32 diagonally positioned from the TIP42.
+	<br>
+	<img src="images/step3/7.jpg" width="500"/>
+	<p/>
+	8. Do the same for the other H-Bridge.
+	<br>
+	<img src="images/step3/8.jpg" width="500"/>
+	<p/>
+	9. Connect Pin 4 and 5 of the arduino digital I/O to the resistors connected to pin 1 of the TIP31 of the other H-Bridge.
+	<br>
+	<img src="images/step3/9.jpg" width="500"/>
+	<p/>
+	10. Connect motor wires to one of the H-Bridges (each of the pin 2 of the TIP42). Connect the other motor to the other H-Bridge in the same way.
+	<br>
+	<img src="images/step3/10.jpg" width="500"/>
+	<p/>
+	11. OPTIONAL: Connect a bluetooth device to the robot. RX connects to pin 10 and TX connects to pin 11 of the arduino. The Ground is connected to ground and the VCC is connected to the +5V.
+	<br>
+	<img src="images/step3/11.jpg" width="500"/>
+	<p/>
+</div>
+</body>
